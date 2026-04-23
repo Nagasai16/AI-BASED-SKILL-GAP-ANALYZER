@@ -36,22 +36,25 @@ The main objective is to build and deploy an intelligent system that evaluates a
 
 ## 🚀 How to Run
 
-### Clone the Repository
-
+**Clone the Repository**
+```bash
 git clone https://github.com/your-username/AI-BASED-SKILL-GAP-ANALYZER.git
 cd AI-BASED-SKILL-GAP-ANALYZER
+```
 
-### Install Dependencies
-
+**Install Dependencies**
+```bash
 pip install -r requirements.txt
+```
 
-### Run the Application
+**Run the Application**
 
 python app.py
 
-### Access in Browser
-
+**Access in Browser**
+```bash
 Open: http://127.0.0.1:5000
+```
 
 ---
 
