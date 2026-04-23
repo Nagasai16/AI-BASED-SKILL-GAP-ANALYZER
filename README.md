@@ -48,8 +48,9 @@ pip install -r requirements.txt
 ```
 
 **Run the Application**
-
+```bash
 python app.py
+```
 
 **Access in Browser**
 ```bash
