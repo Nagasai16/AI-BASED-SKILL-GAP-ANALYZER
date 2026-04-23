@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Skill Gap Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══════════════════════════════════════════
+       SCREEN 1: LOGIN
+  ══════════════════════════════════════════ -->
+  <div class="screen" id="login-screen">
+    <div class="login-container">
+
+      <div class="login-logo">
+        <div class="logo-icon">🎯</div>
+        <span class="logo-text">AI <span>Skill Gap</span> Analyzer</span>
+      </div>
+
+      <h1 class="login-title">Find Your Skill Gaps</h1>
+      <p class="login-subtitle">
+        AI-powered career guidance that maps your skills to industry requirements — and builds your learning roadmap.
+      </p>
+
+      <div class="input-group">
+        <label>Your Name</label>
+        <input type="text" id="input-name" placeholder="e.g. Alex Johnson" autocomplete="off">
+      </div>
+
+      <button class="btn-login" id="btn-get-started">
+        Get Started &nbsp;→
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       SCREEN 2: STEPS
+  ══════════════════════════════════════════ -->
+  <div class="screen" id="steps-screen">
+
+    <!-- Navbar -->
+    <nav class="nav">
+      <div class="nav-logo">
+        <div class="nav-logo-icon">🎯</div>
+        AI<span class="logo-dot">·</span>Skill Gap Analyzer
+      </div>
+      <div class="nav-user">
+        <div class="nav-avatar"><span id="nav-avatar-letter">U</span></div>
+        <span id="nav-username">User</span>
+      </div>
+    </nav>
+
+    <div class="steps-content">
+
+      <!-- Progress -->
+      <div class="progress-container">
+        <div class="progress-header">
+          <span class="progress-label" id="progress-label-text">Step 1 of 5</span>
+          <div class="progress-steps">
+            <div class="step-dot active" data-s="1">1</div>
+            <div class="step-line"></div>
+            <div class="step-dot" data-s="2">2</div>
+            <div class="step-line"></div>
+            <div class="step-dot" data-s="3">3</div>
+            <div class="step-line"></div>
+            <div class="step-dot" data-s="4">4</div>
+            <div class="step-line"></div>
+            <div class="step-dot" data-s="5">5</div>
+          </div>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+
+      <!-- ── STEP 1: About You ── -->
+      <div class="step-card active" data-step="1">
+        <div class="step-badge">👤 Step 1 of 5</div>
+        <h2 class="step-title">About You</h2>
+        <p class="step-desc">Tell us a bit about your current background.</p>
+
+        <div class="form-group">
+          <label>Current Role / Status</label>
+          <input type="text" id="input-current-role" placeholder="e.g. Computer Science Student, Intern, Fresher…">
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Years of Experience</label>
+            <select id="input-experience">
+              <option value="0">No Experience</option>
+              <option value="1">Less than 1 year</option>
+              <option value="2">1–2 years</option>
+              <option value="3">3–5 years</option>
+              <option value="4">5+ years</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-step1-next">Continue &nbsp;→</button>
+        </div>
+      </div>
+
+
+      <!-- ── STEP 2: Education ── -->
+      <div class="step-card" data-step="2">
+        <div class="step-badge">🎓 Step 2 of 5</div>
+        <h2 class="step-title">Your Education</h2>
+        <p class="step-desc">Help us understand your academic background.</p>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Education Level</label>
+            <select id="input-education">
+              <option value="">Select level…</option>
+              <option value="high_school">High School</option>
+              <option value="diploma">Diploma</option>
+              <option value="bachelors">Bachelor's Degree</option>
+              <option value="masters">Master's Degree</option>
+              <option value="phd">PhD</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Field of Study</label>
+            <input type="text" id="input-field" placeholder="e.g. Computer Science, IT…">
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-step2-back">← Back</button>
+          <button class="btn btn-primary" id="btn-step2-next">Continue &nbsp;→</button>
+        </div>
+      </div>
+
+
+      <!-- ── STEP 3: Skills ── -->
+      <div class="step-card" data-step="3">
+        <div class="step-badge">💡 Step 3 of 5</div>
+        <h2 class="step-title">Your Skills</h2>
+        <p class="step-desc">Select your skills and set your proficiency level for each.</p>
+
+        <div id="category-tabs" class="skill-categories"></div>
+        <div id="skills-grid" class="skills-grid"></div>
+
+        <div class="selected-skills-section">
+          <h4>⚡ Proficiency Levels</h4>
+          <div id="proficiency-list"></div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-step3-back">← Back</button>
+          <button class="btn btn-primary" id="btn-step3-next">Continue &nbsp;→</button>
+        </div>
+      </div>
+
+
+      <!-- ── STEP 4: Projects ── -->
+      <div class="step-card" data-step="4">
+        <div class="step-badge">🛠 Step 4 of 5</div>
+        <h2 class="step-title">Your Projects</h2>
+        <p class="step-desc">Add projects you've built — 2+ projects earns a readiness bonus!</p>
+
+        <div id="projects-list"></div>
+
+        <button class="btn-add-project" id="btn-add-project">
+          <span>＋</span> Add Another Project
+        </button>
+
+        <div class="btn-row" style="margin-top:24px">
+          <button class="btn btn-secondary" id="btn-step4-back">← Back</button>
+          <button class="btn btn-primary" id="btn-step4-next">Continue &nbsp;→</button>
+        </div>
+      </div>
+
+
+      <!-- ── STEP 5: Dream Role ── -->
+      <div class="step-card" data-step="5">
+        <div class="step-badge">🚀 Step 5 of 5</div>
+        <h2 class="step-title">Your Dream Role</h2>
+        <p class="step-desc">Select the job role you're targeting to get your personalized gap analysis.</p>
+
+        <div id="roles-grid" class="roles-grid">
+          <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:32px;font-size:14px">
+            Loading roles…
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-step5-back">← Back</button>
+        </div>
+      </div>
+
+    </div><!-- /steps-content -->
+
+    <!-- Floating Bar -->
+    <div class="floating-bar" id="floating-bar">
+      <div>
+        <div class="floating-bar-label">Selected Role</div>
+        <div class="floating-bar-role" id="selected-role-name">—</div>
+      </div>
+      <button class="btn-analyze" id="btn-analyze-now">
+        🔍 Analyze Skill Gap
+      </button>
+    </div>
+
+  </div><!-- /steps-screen -->
+
+
+  <!-- ══════════════════════════════════════════
+       SCREEN 3: ANALYSIS RESULTS
+  ══════════════════════════════════════════ -->
+  <div class="screen" id="analysis-screen">
+
+    <nav class="nav">
+      <div class="nav-logo">
+        <div class="nav-logo-icon">🎯</div>
+        AI<span class="logo-dot">·</span>Skill Gap Analyzer
+      </div>
+      <div class="nav-user">
+        <div class="nav-avatar"><span id="result-avatar">U</span></div>
+        <span id="result-nav-name">User</span>
+      </div>
+    </nav>
+
+    <div class="analysis-content">
+
+      <div class="analysis-header">
+        <div class="analysis-badge">✅ Analysis Complete</div>
+        <h1 class="analysis-title">Your Skill Gap Report</h1>
+        <p class="analysis-subtitle">
+          Hey <strong id="analysis-user-name">there</strong>! Here's your personalized analysis for <strong id="analysis-role-name">—</strong>
+        </p>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="results-grid">
+
+        <!-- Donut Chart -->
+        <div class="result-card">
+          <div class="result-card-title">
+            <span>📊</span> Skill Match Score
+          </div>
+          <div class="chart-container">
+            <canvas id="donut-chart" height="200"></canvas>
+            <div class="chart-center-label">
+              <div class="chart-match-value" id="match-value">0%</div>
+              <div class="chart-match-label">Match Rate</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Readiness -->
+        <div class="result-card">
+          <div class="result-card-title">
+            <span>🏆</span> Readiness Level
+          </div>
+          <div class="readiness-display">
+            <div class="readiness-ring" id="readiness-ring">
+              <span class="readiness-icon" id="readiness-icon">📚</span>
+            </div>
+            <div class="readiness-level" id="readiness-level-text">—</div>
+            <p class="readiness-desc" id="readiness-desc">—</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Skills Breakdown -->
+      <div class="skills-breakdown-card">
+        <div class="result-card-title" style="margin-bottom:0">
+          <span>🔍</span> Skills Breakdown
+          <span style="margin-left:auto;font-size:12px;color:var(--text-muted);text-transform:none;letter-spacing:0" id="match-stats"></span>
+        </div>
+        <div class="breakdown-grid">
+          <div class="skills-col matched">
+            <h4>✅ Matched Skills</h4>
+            <div class="skill-pill-list" id="matched-list"></div>
+          </div>
+          <div class="skills-col missing">
+            <h4>❌ Missing Skills</h4>
+            <div class="skill-pill-list" id="missing-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roadmap -->
+      <div class="roadmap-card">
+        <div class="result-card-title">
+          <span>🗺️</span> Your Learning Roadmap
+        </div>
+        <div class="roadmap-timeline" id="roadmap-timeline"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-row">
+        <button class="btn-restart" id="btn-restart">
+          ↺ &nbsp; Start New Analysis
+        </button>
+      </div>
+
+    </div>
+  </div><!-- /analysis-screen -->
+
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Analyzing your skills…</div>
+    <div class="loading-sub">Running expert system rules</div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+</div><!-- /app -->
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
